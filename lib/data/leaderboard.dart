@@ -16,7 +16,7 @@ class Leaderboard extends HiveObject {
     int i = 0;
 
     for (i = 0; i < records.length && i < 10; i++) {
-      if (record.score > records[i].score) {
+      if (record.compareTo(records[i]) == -1) {
         records.insert(i, record);
         return;
       }
@@ -36,7 +36,7 @@ class Leaderboard extends HiveObject {
       return true;
     }
 
-    return records.any((rec) => rec.score < record.score);
+    return records.any((rec) => rec.score.compareTo(record.score) > 0);
   }
 
   bool get isEmpty => records.isEmpty;

@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'game.g.dart';
 
 @HiveType(typeId: 1)
-class Game extends HiveObject {
+class Game extends HiveObject implements Comparable<Game> {
   @HiveField(0)
   final String username;
 
@@ -25,6 +25,19 @@ class Game extends HiveObject {
 
   String get formattedDateHour {
     return "${date.day}/${date.month}/${date.year} - ${date.hour._toTwoDigits}:${date.minute._toTwoDigits}";
+  }
+
+  @override
+  int compareTo(Game other) {
+    if (score > other.score) {
+      return -1;
+    }
+
+    if (score < other.score) {
+      return 1;
+    }
+
+    return secondsToMemorize < other.secondsToMemorize ? -1 : 0;
   }
 }
 
