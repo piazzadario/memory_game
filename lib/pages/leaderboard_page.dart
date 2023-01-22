@@ -100,7 +100,7 @@ class LeaderboardPage extends StatelessWidget {
 
   Color? _rowColor(int position) {
     if (position == 1) {
-      return Color.fromARGB(255, 176, 162, 34);
+      return const Color.fromARGB(255, 176, 162, 34);
     }
     if (position == 2) {
       return Colors.grey.shade300;

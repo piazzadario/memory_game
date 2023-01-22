@@ -27,7 +27,11 @@ Future<void> _initializeHive() async {
   Hive.registerAdapter(GameAdapter());
   Hive.registerAdapter(LeaderboardAdapter());
   Hive.registerAdapter(PreferencesAdapter());
-  await Hive.openBox("preferences");
+  final box = await Hive.openBox("preferences");
+  Preferences? pref = box.get("settings");
+  if (pref == null) {
+    box.put("settings", Preferences.initial());
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -41,10 +45,10 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       initialRoute: HomePage.routeName,
       routes: {
-        HomePage.routeName :(context) => const HomePage(),
-        GamePage.routeName :(context) => const GamePage(),
-        LeaderboardPage.routeName :(context) => const LeaderboardPage(),
-        SettingsPage.routeName :(context) => const SettingsPage(),
+        HomePage.routeName: (context) => const HomePage(),
+        GamePage.routeName: (context) => const GamePage(),
+        LeaderboardPage.routeName: (context) => const LeaderboardPage(),
+        SettingsPage.routeName: (context) => const SettingsPage(),
       },
     );
   }

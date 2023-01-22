@@ -37,10 +37,6 @@ class _MyWidgetState extends State<GamePage>
   @override
   void initState() {
     final box = Hive.box("preferences");
-    if (box.get("settings") == null) {
-      box.put("settings", Preferences.initial());
-    }
-
     preferences = box.get("settings");
     _level = preferences.startingLevel;
 
