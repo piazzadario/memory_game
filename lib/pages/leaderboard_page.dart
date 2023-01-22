@@ -32,9 +32,18 @@ class LeaderboardPage extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(24.0),
             child: Table(
+              columnWidths: const {
+                0: FixedColumnWidth(60),
+                1: FlexColumnWidth(1),
+                2: FlexColumnWidth(2),
+              },
               children: [
                 const TableRow(
                   children: [
+                    Text(
+                      "#",
+                      style: bodyStyle,
+                    ),
                     Text(
                       "User",
                       style: bodyStyle,
@@ -56,13 +65,18 @@ class LeaderboardPage extends StatelessWidget {
                 ...List.generate(leaderboard.records.length, (index) {
                   final Game game = leaderboard.records[index];
                   return TableRow(
+                    decoration: BoxDecoration(color: _rowColor(index + 1)),
                     children: [
+                      Text(
+                        (index + 1).toString(),
+                        style: bodyStyle,
+                      ),
                       Text(
                         game.username,
                         style: bodyStyle,
                       ),
                       Text(
-                        game.formattedDate,
+                        game.formattedDateHour,
                         style: bodyStyle,
                       ),
                       Text(
@@ -82,6 +96,20 @@ class LeaderboardPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Color? _rowColor(int position) {
+    if (position == 1) {
+      return Color.fromARGB(255, 176, 162, 34);
+    }
+    if (position == 2) {
+      return Colors.grey.shade300;
+    }
+    if (position == 3) {
+      return const Color.fromARGB(255, 169, 88, 7);
+    }
+
+    return null;
   }
 }
 

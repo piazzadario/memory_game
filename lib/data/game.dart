@@ -23,7 +23,17 @@ class Game extends HiveObject {
     required this.date,
   });
 
-  String get formattedDate {
-    return "${date.day}/${date.month}/${date.year}";
+  String get formattedDateHour {
+    return "${date.day}/${date.month}/${date.year} - ${date.hour._toTwoDigits}:${date.minute._toTwoDigits}";
+  }
+}
+
+extension on int {
+  String get _toTwoDigits {
+    if (this < 10) {
+      return "0${this}";
+    }
+
+    return toString();
   }
 }
