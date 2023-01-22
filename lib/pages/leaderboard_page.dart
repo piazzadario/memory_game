@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class LeaderboardPage extends StatelessWidget {
+  static String routeName = "/leaderboard";
   const LeaderboardPage({super.key});
 
   @override
@@ -20,7 +21,12 @@ class LeaderboardPage extends StatelessWidget {
           final Preferences preferences = box.get("settings");
           final Leaderboard leaderboard = preferences.leaderboard;
           if (leaderboard.isEmpty) {
-            return const Center(child: _NoRecordsCard());
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                child: _NoRecordsCard(),
+              ),
+            );
           }
 
           return Padding(

@@ -59,7 +59,7 @@ class GameOver extends StatelessWidget {
             )
           else
             const Text(
-              "No answer provider",
+              "No answer provided",
               style: subtitleStyle,
               textAlign: TextAlign.center,
             ),

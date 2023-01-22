@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:brain_benchmark/components/correct_answer.dart';
 import 'package:brain_benchmark/data/game.dart';
 import 'package:brain_benchmark/data/preferences.dart';
 import 'package:flutter/material.dart';
@@ -9,20 +10,27 @@ import '../components/game_over.dart';
 import '../constants.dart';
 
 class GamePage extends StatefulWidget {
+  static String routeName = "/game";
   const GamePage({super.key});
 
   @override
   State<GamePage> createState() => _MyWidgetState();
 }
 
+enum GameStatus {
+  gameOver,
+  correctAnswer,
+  memorizing,
+  guessing;
+}
+
 class _MyWidgetState extends State<GamePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool _isGuessing = false;
+  GameStatus _gameStatus = GameStatus.memorizing;
   int _level = 1;
   String _numberToGuess = "";
   String _userAnswer = "";
-  bool _gameOver = false;
   late Preferences preferences;
   final FocusNode _focusNode = FocusNode();
 
@@ -53,11 +61,11 @@ class _MyWidgetState extends State<GamePage>
   }
 
   void _showGuessInput() => setState(() {
-        _isGuessing = true;
+        _gameStatus = GameStatus.guessing;
       });
 
   void _showNumberToGuess() => setState(() {
-        _isGuessing = false;
+        _gameStatus = GameStatus.memorizing;
       });
 
   @override
@@ -69,42 +77,7 @@ class _MyWidgetState extends State<GamePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _gameOver
-          ? GameOver(
-              answer: _userAnswer,
-              correctAnswer: _numberToGuess,
-              onRestart: _restartGame,
-            )
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: _isGuessing
-                    ? [
-                        TextField(
-                          autofocus: true,
-                          focusNode: _focusNode,
-                          keyboardType: TextInputType.number,
-                          onSubmitted: _validateInput,
-                        ),
-                      ]
-                    : [
-                        LinearProgressIndicator(
-                          value: 1 - _controller.value,
-                          semanticsLabel: 'Linear progress indicator',
-                          backgroundColor: Colors.grey.shade200,
-                          color: _progressColor,
-                        ),
-                        Center(
-                          child: Text(
-                            _numberToGuess,
-                            style: subtitleStyle,
-                          ),
-                        ),
-                      ],
-              ),
-            ),
+      body: _buildBody(),
     );
   }
 
@@ -128,7 +101,7 @@ class _MyWidgetState extends State<GamePage>
       () {
         _userAnswer = input;
         if (input == _numberToGuess) {
-          _proceedToNextLevel();
+          _showCorrectAnswer();
           return;
         }
 
@@ -143,6 +116,10 @@ class _MyWidgetState extends State<GamePage>
     );
   }
 
+  void _showCorrectAnswer() => setState(() {
+        _gameStatus = GameStatus.correctAnswer;
+      });
+
   void _proceedToNextLevel() {
     _level++;
     _numberToGuess = _generateRandomNumber();
@@ -152,7 +129,7 @@ class _MyWidgetState extends State<GamePage>
   }
 
   void _showGameOver() => setState(() {
-        _gameOver = true;
+        _gameStatus = GameStatus.gameOver;
       });
 
   String _generateRandomNumber() {
@@ -169,8 +146,7 @@ class _MyWidgetState extends State<GamePage>
     setState(() {
       _level = 1;
       _numberToGuess = _generateRandomNumber();
-      _gameOver = false;
-      _isGuessing = false;
+      _gameStatus = GameStatus.memorizing;
       _userAnswer = "";
     });
     _controller.forward();
@@ -183,5 +159,52 @@ class _MyWidgetState extends State<GamePage>
       secondsToMemorize: preferences.secondsToMemorize,
       date: DateTime.now(),
     );
+  }
+
+  Widget _buildBody() {
+    switch (_gameStatus) {
+      case GameStatus.gameOver:
+        return GameOver(
+          answer: _userAnswer,
+          correctAnswer: _numberToGuess,
+          onRestart: _restartGame,
+        );
+      case GameStatus.correctAnswer:
+        return CorrectAnswer(
+          answer: _userAnswer,
+          onContinue: _proceedToNextLevel,
+        );
+      case GameStatus.memorizing:
+      case GameStatus.guessing:
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: (_gameStatus == GameStatus.guessing)
+                ? [
+                    TextField(
+                      autofocus: true,
+                      focusNode: _focusNode,
+                      keyboardType: TextInputType.number,
+                      onSubmitted: _validateInput,
+                    ),
+                  ]
+                : [
+                    LinearProgressIndicator(
+                      value: 1 - _controller.value,
+                      semanticsLabel: 'Linear progress indicator',
+                      color: _progressColor,
+                    ),
+                    Center(
+                      child: Text(
+                        _numberToGuess,
+                        style: headlineStyle,
+                      ),
+                    ),
+                  ],
+          ),
+        );
+    }
   }
 }
