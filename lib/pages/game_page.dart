@@ -102,10 +102,12 @@ class _MyWidgetState extends State<GamePage>
 
   void _validateInput(String input) {
     _focusNode.unfocus();
+    _textController.clear();
     Future.delayed(
       const Duration(milliseconds: 100),
       () {
         _userAnswer = input;
+
         if (input == _numberToGuess) {
           _showCorrectAnswer();
           return;
