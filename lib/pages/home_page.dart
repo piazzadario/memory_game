@@ -17,7 +17,7 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Brain"),
+        title: const Text("Memory benchmark"),
         actions: [
           GestureDetector(
             child: const Icon(Icons.settings),
@@ -30,25 +30,27 @@ class _MyHomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, GamePage.routeName);
-              },
-              label: const Text("New game"),
-              icon: const Icon(Icons.play_arrow),
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, LeaderboardPage.routeName);
-              },
-              label: const Text("Leaderboard"),
-              icon: const Icon(Icons.leaderboard_outlined),
-            ),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, GamePage.routeName);
+                },
+                label: const Text("New game"),
+                icon: const Icon(Icons.play_arrow),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, LeaderboardPage.routeName);
+                },
+                label: const Text("Leaderboard"),
+                icon: const Icon(Icons.leaderboard_outlined),
+              ),
+            ],
+          ),
         ),
       ),
     );

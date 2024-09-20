@@ -27,6 +27,7 @@ enum GameStatus {
 class _MyWidgetState extends State<GamePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  final TextEditingController _textController = TextEditingController();
   GameStatus _gameStatus = GameStatus.memorizing;
   int _level = 1;
   String _numberToGuess = "";
@@ -73,7 +74,16 @@ class _MyWidgetState extends State<GamePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBody(),
+      appBar: AppBar(
+        title: Text("Level $_level"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _restartGame,
+          ),
+        ],
+      ),
+      body: SafeArea(child: _buildBody(context)),
     );
   }
 
@@ -157,7 +167,7 @@ class _MyWidgetState extends State<GamePage>
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     switch (_gameStatus) {
       case GameStatus.gameOver:
         return GameOver(
@@ -176,14 +186,24 @@ class _MyWidgetState extends State<GamePage>
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: _gameStatus == GameStatus.guessing
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.stretch,
             children: (_gameStatus == GameStatus.guessing)
                 ? [
                     TextField(
+                      controller: _textController,
                       autofocus: true,
                       focusNode: _focusNode,
                       keyboardType: TextInputType.number,
                       onSubmitted: _validateInput,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        _validateInput(_textController.text);
+                      },
+                      child: const Text("Submit"),
                     ),
                   ]
                 : [
