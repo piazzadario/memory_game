@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676238063796",
+    "project_id": "brain-tester-f485b",
+    "storage_bucket": "brain-tester-f485b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676238063796:android:81fbc3f1db54c0bf29ffe1",
+        "android_client_info": {
+          "package_name": "com.example.brain_benchmark"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJQfw8OZw5jACVYTmNkFJMCwmfbFCy2XY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
