@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 part 'game.g.dart';
 
@@ -24,7 +25,7 @@ class Game extends HiveObject implements Comparable<Game> {
   });
 
   String get formattedDateHour {
-    return "${date.day}/${date.month}/${date.year} - ${date.hour._toTwoDigits}:${date.minute._toTwoDigits}";
+    return DateFormat('dd/MM/yyyy').format(date);
   }
 
   @override

@@ -32,24 +32,28 @@ class _MyHomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, GamePage.routeName);
-                },
-                label: const Text("New game"),
-                icon: const Icon(Icons.play_arrow),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, LeaderboardPage.routeName);
-                },
-                label: const Text("Leaderboard"),
-                icon: const Icon(Icons.leaderboard_outlined),
-              ),
-            ],
+          child: IntrinsicWidth(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, GamePage.routeName);
+                  },
+                  label: const Text("New game"),
+                  icon: const Icon(Icons.play_arrow),
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, LeaderboardPage.routeName);
+                  },
+                  label: const Text("Leaderboard"),
+                  icon: const Icon(Icons.leaderboard_outlined),
+                ),
+              ],
+            ),
           ),
         ),
       ),

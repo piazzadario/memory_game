@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:brain_benchmark/constants.dart';
 import 'package:brain_benchmark/data/game.dart';
 import 'package:brain_benchmark/data/leaderboard.dart';
@@ -32,33 +33,45 @@ class LeaderboardPage extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(24.0),
             child: Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               columnWidths: const {
-                0: FixedColumnWidth(60),
+                0: FixedColumnWidth(40),
                 1: FlexColumnWidth(1),
                 2: FlexColumnWidth(2),
+                3: FixedColumnWidth(60),
               },
               children: [
                 const TableRow(
                   children: [
-                    Text(
+                    AutoSizeText(
                       "#",
-                      style: bodyStyle,
+                      maxLines: 1,
+                      maxFontSize: 16,
+                      minFontSize: 10,
                     ),
-                    Text(
+                    AutoSizeText(
                       "User",
-                      style: bodyStyle,
+                      maxLines: 1,
+                      maxFontSize: 16,
+                      minFontSize: 10,
                     ),
-                    Text(
+                    AutoSizeText(
                       "Date",
-                      style: bodyStyle,
+                      maxLines: 1,
+                      maxFontSize: 16,
+                      minFontSize: 10,
                     ),
-                    Text(
-                      "Seconds",
-                      style: bodyStyle,
+                    AutoSizeText(
+                      "Time(s)",
+                      maxLines: 1,
+                      maxFontSize: 16,
+                      minFontSize: 10,
                     ),
-                    Text(
+                    AutoSizeText(
                       "Score",
-                      style: bodyStyle,
+                      maxLines: 1,
+                      maxFontSize: 16,
+                      minFontSize: 10,
                     ),
                   ],
                 ),
@@ -67,25 +80,35 @@ class LeaderboardPage extends StatelessWidget {
                   return TableRow(
                     decoration: BoxDecoration(color: _rowColor(index + 1)),
                     children: [
-                      Text(
+                      AutoSizeText(
                         (index + 1).toString(),
-                        style: bodyStyle,
+                        maxLines: 1,
+                        minFontSize: 10,
+                        maxFontSize: 16,
                       ),
-                      Text(
+                      AutoSizeText(
                         game.username,
-                        style: bodyStyle,
+                        maxLines: 1,
+                        minFontSize: 10,
+                        maxFontSize: 16,
                       ),
-                      Text(
+                      AutoSizeText(
                         game.formattedDateHour,
-                        style: bodyStyle,
+                        maxLines: 1,
+                        minFontSize: 10,
+                        maxFontSize: 16,
                       ),
-                      Text(
+                      AutoSizeText(
                         game.secondsToMemorize.toString(),
-                        style: bodyStyle,
+                        maxLines: 1,
+                        minFontSize: 10,
+                        maxFontSize: 16,
                       ),
-                      Text(
+                      AutoSizeText(
                         game.score.toString(),
-                        style: bodyStyle,
+                        maxLines: 1,
+                        minFontSize: 10,
+                        maxFontSize: 16,
                       ),
                     ],
                   );

@@ -6,7 +6,6 @@ import 'package:brain_benchmark/pages/leaderboard_page.dart';
 import 'package:brain_benchmark/pages/settings_page.dart';
 import 'package:brain_benchmark/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'pages/home_page.dart';
@@ -14,12 +13,7 @@ import 'pages/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _initializeHive();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight])
-      .then(
-    (_) {
-      runApp(const MyApp());
-    },
-  );
+  runApp(const MyApp());
 }
 
 Future<void> _initializeHive() async {

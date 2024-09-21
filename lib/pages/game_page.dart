@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:brain_benchmark/components/correct_answer.dart';
 import 'package:brain_benchmark/data/game.dart';
 import 'package:brain_benchmark/data/preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 import '../components/game_over.dart';
@@ -187,7 +189,7 @@ class _MyWidgetState extends State<GamePage>
         return Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: _gameStatus == GameStatus.guessing
                 ? CrossAxisAlignment.center
                 : CrossAxisAlignment.stretch,
@@ -197,29 +199,44 @@ class _MyWidgetState extends State<GamePage>
                       controller: _textController,
                       autofocus: true,
                       focusNode: _focusNode,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       keyboardType: TextInputType.number,
                       onSubmitted: _validateInput,
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
+                    const SizedBox(height: 40),
+                    ElevatedButton.icon(
                       onPressed: () {
                         _validateInput(_textController.text);
                       },
-                      child: const Text("Submit"),
+                      label: const Text("Submit"),
+                      icon: const Icon(Icons.check),
                     ),
                   ]
                 : [
+                    const SizedBox(height: 40),
                     LinearProgressIndicator(
                       value: 1 - _controller.value,
                       semanticsLabel: 'Linear progress indicator',
                       color: _progressColor,
+                      minHeight: 10,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    Center(
-                      child: Text(
-                        _numberToGuess,
-                        style: headlineStyle,
-                      ),
+                    const Spacer(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text('Number to guess:', style: bodyStyle),
+                        AutoSizeText(
+                          _numberToGuess,
+                          style: headlineStyle,
+                          maxLines: 1,
+                          minFontSize: 10,
+                        ),
+                      ],
                     ),
+                    const Spacer(),
                   ],
           ),
         );
