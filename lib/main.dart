@@ -3,7 +3,8 @@ import 'package:brain_benchmark/data/game.dart';
 import 'package:brain_benchmark/data/leaderboard.dart';
 import 'package:brain_benchmark/data/preferences.dart';
 import 'package:brain_benchmark/firebase_options.dart';
-import 'package:brain_benchmark/pages/game_page.dart';
+import 'package:brain_benchmark/pages/numbers_game_page.dart';
+import 'package:brain_benchmark/pages/hanoi_page.dart';
 import 'package:brain_benchmark/pages/leaderboard_page.dart';
 import 'package:brain_benchmark/pages/settings_page.dart';
 import 'package:brain_benchmark/theme.dart';
@@ -51,12 +52,14 @@ class MyApp extends StatelessWidget {
           children: [
             Expanded(child: child!),
             const AnchoredBanner(),
+            SizedBox(height: MediaQuery.of(context).padding.bottom)
           ],
         );
       },
       routes: {
         HomePage.routeName: (context) => const HomePage(),
-        GamePage.routeName: (context) => const GamePage(),
+        HanoiPage.routeName: (context) => const HanoiPage(),
+        NumbersGamePage.routeName: (context) => const NumbersGamePage(),
         LeaderboardPage.routeName: (context) => const LeaderboardPage(),
         SettingsPage.routeName: (context) => const SettingsPage(),
       },

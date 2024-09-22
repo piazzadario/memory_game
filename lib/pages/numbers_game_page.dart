@@ -11,12 +11,12 @@ import 'package:hive/hive.dart';
 import '../components/game_over.dart';
 import '../constants.dart';
 
-class GamePage extends StatefulWidget {
-  static String routeName = "/game";
-  const GamePage({super.key});
+class NumbersGamePage extends StatefulWidget {
+  static const String routeName = "/game";
+  const NumbersGamePage({super.key});
 
   @override
-  State<GamePage> createState() => _MyWidgetState();
+  State<NumbersGamePage> createState() => _NumbersGamePageState();
 }
 
 enum GameStatus {
@@ -26,7 +26,7 @@ enum GameStatus {
   guessing;
 }
 
-class _MyWidgetState extends State<GamePage>
+class _NumbersGamePageState extends State<NumbersGamePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   final TextEditingController _textController = TextEditingController();
