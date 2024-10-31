@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:brain_benchmark/constants.dart';
 import 'package:brain_benchmark/pages/hanoi_page.dart';
+import 'package:brain_benchmark/pages/memory_page.dart';
 import 'package:brain_benchmark/pages/numbers_game_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'reaction_speed.dart';
 import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -74,6 +76,16 @@ class _MyHomePageState extends State<HomePage> {
                     _GameCard(
                       title: "Hanoi tower",
                       routeName: HanoiPage.routeName,
+                      imagePath: "assets/hanoi.jpg",
+                    ),
+                    _GameCard(
+                      title: "Memory",
+                      routeName: MemoryGamePage.routeName,
+                      imagePath: "assets/hanoi.jpg",
+                    ),
+                    _GameCard(
+                      title: "Reaction speed",
+                      routeName: ReactionGamePage.routeName,
                       imagePath: "assets/hanoi.jpg",
                     ),
                   ],
