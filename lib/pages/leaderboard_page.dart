@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:brain_benchmark/constants.dart';
 import 'package:brain_benchmark/data/game.dart';
 import 'package:brain_benchmark/data/leaderboard.dart';
 import 'package:brain_benchmark/data/preferences.dart';
@@ -141,7 +140,7 @@ class _NoRecordsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return const Card(
       child: Padding(
         padding: const EdgeInsets.all(26),
         child: Row(

@@ -3,6 +3,27 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+class _AnchoredBannerIds {
+  final String ios;
+  final String android;
+
+  _AnchoredBannerIds({required this.ios, required this.android});
+
+  factory _AnchoredBannerIds.prod() {
+    return _AnchoredBannerIds(
+      ios: 'ca-app-pub-2770822892374175/5775785524',
+      android: 'ca-app-pub-2770822892374175/8900172159',
+    );
+  }
+
+  factory _AnchoredBannerIds.test() {
+    return _AnchoredBannerIds(
+      ios: 'ca-app-pub-3940256099942544/2435281174',
+      android: 'ca-app-pub-3940256099942544/9214589741',
+    );
+  }
+}
+
 class AnchoredBanner extends StatefulWidget {
   const AnchoredBanner({super.key});
 
@@ -13,22 +34,17 @@ class AnchoredBanner extends StatefulWidget {
 class _AnchoredBannerState extends State<AnchoredBanner> {
   BannerAd? _bannerAd;
   bool _isLoaded = false;
+  late final String _adUnitId;
 
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    loadAd();
-    // });
+    _adUnitId = getAdUnitId();
+    _loadAd();
   }
 
-  // TODO: replace this test ad unit with your own ad unit.
-  final adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/6300978111'
-      : 'ca-app-pub-3940256099942544/2934735716';
-
   /// Loads a banner ad.
-  void loadAd() async {
+  void _loadAd() async {
     AdSize size;
     try {
       size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
@@ -39,7 +55,7 @@ class _AnchoredBannerState extends State<AnchoredBanner> {
     }
 
     _bannerAd = BannerAd(
-      adUnitId: adUnitId,
+      adUnitId: _adUnitId,
       request: const AdRequest(),
       size: size,
       listener: BannerAdListener(
@@ -81,5 +97,17 @@ class _AnchoredBannerState extends State<AnchoredBanner> {
         );
       },
     );
+  }
+
+  String getAdUnitId() {
+    if (Platform.isAndroid) {
+      return const bool.fromEnvironment('PRODUCTION')
+          ? _AnchoredBannerIds.prod().android
+          : _AnchoredBannerIds.test().android;
+    } else {
+      return const bool.fromEnvironment('PRODUCTION')
+          ? _AnchoredBannerIds.prod().ios
+          : _AnchoredBannerIds.test().ios;
+    }
   }
 }

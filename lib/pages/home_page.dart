@@ -7,7 +7,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'reaction_speed.dart';
-import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = "/";
@@ -22,8 +21,8 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Memory benchmark"),
-        actions: [
+        title: const Text("Brain Tester"),
+        /* actions: [
           GestureDetector(
             child: const Icon(Icons.settings),
             onTap: () {
@@ -33,7 +32,7 @@ class _MyHomePageState extends State<HomePage> {
           const SizedBox(
             width: 16,
           ),
-        ],
+        ], */
       ),
       body: SafeArea(
         child: Padding(
@@ -72,21 +71,29 @@ class _MyHomePageState extends State<HomePage> {
                       title: "Number guess",
                       routeName: NumbersGamePage.routeName,
                       imagePath: "assets/numbers.jpg",
+                      description:
+                          'Memorize the growing sequence of numbers shown. Each round adds a new digit—how long can you keep up? Test your memory skills and see how far you can go!',
                     ),
                     _GameCard(
                       title: "Hanoi tower",
                       routeName: HanoiPage.routeName,
                       imagePath: "assets/hanoi.jpg",
+                      description:
+                          'Move the entire stack to a new peg, one disk at a time. Remember, a larger disk can’t go on top of a smaller one!',
                     ),
                     _GameCard(
                       title: "Memory",
                       routeName: MemoryGamePage.routeName,
                       imagePath: "assets/hanoi.jpg",
+                      description:
+                          'Match the cards by remembering their positions. Clear the board by finding all pairs!',
                     ),
                     _GameCard(
                       title: "Reaction speed",
                       routeName: ReactionGamePage.routeName,
                       imagePath: "assets/hanoi.jpg",
+                      description:
+                          'Tap as fast as you can when the light turns green. How quick are your reflexes?',
                     ),
                   ],
                 ),
@@ -100,15 +107,18 @@ class _MyHomePageState extends State<HomePage> {
 }
 
 class _GameCard extends StatelessWidget {
-  final String title;
-  final String routeName;
-  final String imagePath;
   const _GameCard({
     super.key,
     required this.title,
     required this.routeName,
     required this.imagePath,
+    required this.description,
   });
+
+  final String title;
+  final String routeName;
+  final String imagePath;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +130,7 @@ class _GameCard extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage(imagePath),
             colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.6),
+              Colors.black.withOpacity(0.5),
               BlendMode.colorBurn,
             ),
           ),
@@ -133,7 +143,9 @@ class _GameCard extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showInfo(context);
+                },
                 icon: const Icon(
                   Icons.info_outline,
                   color: Colors.white,
@@ -154,29 +166,24 @@ class _GameCard extends StatelessWidget {
       ),
     );
   }
-}
 
-/* IntrinsicWidth(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pushNamed(context, NumbersGamePage.routeName);
-                  },
-                  label: const Text("New game"),
-                  icon: const Icon(Icons.play_arrow),
-                ),
-                const SizedBox(height: 40),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pushNamed(context, LeaderboardPage.routeName);
-                  },
-                  label: const Text("Leaderboard"),
-                  icon: const Icon(Icons.leaderboard_outlined),
-                ),
-              ],
+  void _showInfo(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title, style: bodyStyle),
+          content: Text(description),
+          actions: [
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-          ),
-           */
+          ],
+        );
+      },
+    );
+  }
+}
